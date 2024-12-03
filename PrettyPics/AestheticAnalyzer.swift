@@ -18,7 +18,10 @@ class AestheticAnalyzer: ObservableObject {
         // Register default assessors
         let defaultAssessors: [PhotoAssessor] = [
             BasicPhotoAssessor(),
-            FaceDetectionAssessor()
+            FaceDetectionAssessor(),
+            NatureSceneAssessor(),  // Add the new assessor
+            ColorHarmonyAssessor(),
+            CompositionAssessor()
         ]
         
         for assessor in defaultAssessors {

@@ -1,12 +1,5 @@
-// ContentView.swift
 import SwiftUI
 import Photos
-
-struct SelectedAssetInfo: Identifiable {
-    let id = UUID()
-    let asset: PHAsset
-    let scores: [String: Double]
-}
 
 struct ContentView: View {
     @StateObject private var photoLoader = PhotoLoader()
@@ -16,9 +9,7 @@ struct ContentView: View {
     @State private var isAnalyzing = false
     @State private var showingDatePicker = true
     @State private var showingAssessmentControls = false
-    //@State private var selectedAsset: (PHAsset, [String: Double])? = nil
     @State private var selectedAsset: SelectedAssetInfo? = nil
-
     
     var body: some View {
         NavigationStack {
@@ -60,7 +51,7 @@ struct ContentView: View {
             AssessmentControlsView(photoLoader: photoLoader)
         }
         .sheet(item: $selectedAsset) { assetInfo in
-            assetDetailView(asset: assetInfo.asset, scores: assetInfo.scores)
+            DetailOverlay(asset: assetInfo.asset, scores: assetInfo.scores)
         }
     }
     
@@ -112,6 +103,14 @@ struct ContentView: View {
                 Text("\(photoLoader.dateFilteredAssets.count) photos found in this date range")
                     .foregroundColor(.secondary)
             }
+            
+            if isAnalyzing {
+                AnalysisProgressView(
+                    current: photoLoader.analysisProgress.current,
+                    total: photoLoader.analysisProgress.total,
+                    progress: Double(photoLoader.analysisProgress.current) / Double(photoLoader.analysisProgress.total)
+                )
+            }
         }
         .padding()
     }
@@ -146,7 +145,29 @@ struct ContentView: View {
         }
     }
     
-    private func assetDetailView(asset: PHAsset, scores: [String: Double]) -> some View {
+    private func analyzePhotos() {
+        isAnalyzing = true
+        photoLoader.filterByDateRange(start: startDate, end: endDate) {
+            photoLoader.findTopPhotos {
+                isAnalyzing = false
+                showingDatePicker = false
+            }
+        }
+    }
+}
+
+struct SelectedAssetInfo: Identifiable {
+    let id = UUID()
+    let asset: PHAsset
+    let scores: [String: Double]
+}
+
+struct DetailOverlay: View {
+    @Environment(\.dismiss) var dismiss
+    let asset: PHAsset
+    let scores: [String: Double]
+    
+    var body: some View {
         VStack {
             PhotoThumbnailView(asset: asset)
                 .frame(height: 300)
@@ -165,15 +186,26 @@ struct ContentView: View {
             .padding()
         }
         .frame(width: 400)
+        .background(Color(NSColor.windowBackgroundColor))
+        .cornerRadius(12)
     }
+}
+
+struct AnalysisProgressView: View {
+    let current: Int
+    let total: Int
+    let progress: Double
     
-    private func analyzePhotos() {
-        isAnalyzing = true
-        photoLoader.filterByDateRange(start: startDate, end: endDate) {
-            photoLoader.findTopPhotos {
-                isAnalyzing = false
-                showingDatePicker = false
-            }
+    var body: some View {
+        VStack(spacing: 12) {
+            ProgressView(value: progress)
+                .frame(width: 300)
+            Text("Analyzing photo \(current) of \(total)")
+                .foregroundColor(.secondary)
         }
     }
+}
+
+#Preview {
+    ContentView()
 }

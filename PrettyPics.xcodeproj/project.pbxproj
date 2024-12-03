@@ -6,10 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		602FB7232CFCF604002A0160 /* AssessmentControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602FB7222CFCF604002A0160 /* AssessmentControlsView.swift */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXContainerItemProxy section */
 		602FB6FE2CFCEA33002A0160 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -31,7 +27,6 @@
 		602FB6EC2CFCEA32002A0160 /* PrettyPics.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrettyPics.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		602FB6FD2CFCEA33002A0160 /* PrettyPicsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PrettyPicsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		602FB7072CFCEA33002A0160 /* PrettyPicsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PrettyPicsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		602FB7222CFCF604002A0160 /* AssessmentControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssessmentControlsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -80,7 +75,6 @@
 		602FB6E32CFCEA32002A0160 = {
 			isa = PBXGroup;
 			children = (
-				602FB7222CFCF604002A0160 /* AssessmentControlsView.swift */,
 				602FB6EE2CFCEA32002A0160 /* PrettyPics */,
 				602FB7002CFCEA33002A0160 /* PrettyPicsTests */,
 				602FB70A2CFCEA33002A0160 /* PrettyPicsUITests */,
@@ -242,7 +236,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				602FB7232CFCF604002A0160 /* AssessmentControlsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

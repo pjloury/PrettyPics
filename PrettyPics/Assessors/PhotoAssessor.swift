@@ -9,20 +9,30 @@ protocol PhotoAssessor {
     func assessPhoto(_ asset: PHAsset, completion: @escaping (Double) -> Void)
 }
 
+extension PHImageRequestOptions {
+    static var quickAnalysis: PHImageRequestOptions {
+        let options = PHImageRequestOptions()
+        options.deliveryMode = .fastFormat
+        options.isNetworkAccessAllowed = true
+        options.isSynchronous = false
+        options.resizeMode = .fast
+        return options
+    }
+}
+
+let ANALYSIS_IMAGE_SIZE = CGSize(width: 300, height: 300)
+
+
 class BasicPhotoAssessor: PhotoAssessor {
     let name = "Basic Analysis"
     let weight = 1.0
     
-    func assessPhoto(_ asset: PHAsset, completion: @escaping (Double) -> Void) {
-        let options = PHImageRequestOptions()
-        options.deliveryMode = .highQualityFormat
-        options.isSynchronous = true
-        
+    func assessPhoto(_ asset: PHAsset, completion: @escaping (Double) -> Void) {      
         PHImageManager.default().requestImage(
             for: asset,
             targetSize: CGSize(width: 500, height: 500),
             contentMode: .aspectFit,
-            options: options
+            options: .quickAnalysis
         ) { image, _ in
             guard let nsImage = image else {
                 completion(0.0)
